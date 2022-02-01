@@ -75,37 +75,37 @@ int getListSize(const List *L)
 }
 LNode *Head(const List *L)
 {
-	// TODO
+	return L->head;
 }
 LNode *Tail(const List *L)
 {
-	// TODO
+	return L->tail;
 }
 
 // Modification
 void increaseListSize(List *L)
 {
-	// TODO
+	L->numelm = L->numelm + 1;
 }
 void decreaseListSize(List *L)
 {
-	// TODO
+	L->numelm = L->numelm - 1;
 }
 void setListSize(List *L, int newSize)
 {
-	// TODO
+	L->numelm = newSize;
 }
 void resetListSize(List *L)
 {
-	// TODO
+	L->numelm = 0;
 }
 void setHead(List *L, LNode *newHead)
 {
-	// TODO
+	L->head = newHead;
 }
 void setTail(List *L, LNode *newTail)
 {
-	// TODO
+	L->tail = newTail;
 }
 
 // Liberation
