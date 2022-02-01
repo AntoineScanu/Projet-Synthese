@@ -5,7 +5,7 @@ SDIR = src
 CC = gcc
 CFLAGS = -Wall -Wextra -I$(IDIR)
 
-PROG = convexhull
+PROG = convexhull.exe
 
 _DEP = util.h list.h tree.h heap.h sort.h geometry.h algo.h
 DEP = $(patsubst %,$(IDIR)/%,$(_DEP))
