@@ -14,7 +14,7 @@ TNode * newTNode(void* data) {
 }
 
 void* getTNodeData(const TNode* node) {
-	// TODO
+	return node->data;
 }
 
 TNode* Left(const TNode* node) {
@@ -26,15 +26,15 @@ TNode* Right(const TNode* node) {
 }
 
 void setTNodeData(TNode* node, void* newData) {
-	// TODO
+	node->data=newData;
 }
 
 void setLeft(TNode* node, TNode* newLeft) {
-	// TODO
+	node->left=newLeft;
 }
 
 void setRight(TNode* node, TNode* newRight) {
-	// TODO
+	node->left=newRight;
 }
 
 /********************************************************************
@@ -46,11 +46,14 @@ CBTree * newCBTree(void (*viewData)(const void*), void (*freeData)(void*)) {
 }
 
 int treeIsEmpty(CBTree* T) {
-	// TODO
+	if (T->numelm==0) //pas sûr
+		return 1;
+	else 
+		return 0;
 }
 
 int getCBTreeSize(const CBTree* T) {
-	// TODO
+	return T->numelm; //pas sûr
 }
 
 TNode* Root(const CBTree* T) {
