@@ -52,7 +52,9 @@ void setPredecessor(LNode *node, LNode *newPred)
 // Construction
 List *newList(void (*viewData)(const void *), void (*freeData)(void *))
 {
-	// TODO
+	struct List *L = (struct List *)calloc(1, sizeof(struct List));
+	assert(L);
+	return L;
 }
 
 int listIsEmpty(List *L)
@@ -60,11 +62,11 @@ int listIsEmpty(List *L)
 	assert(L);
 	if (L->numelm == 0)
 	{
-		return 0;
+		return 1;
 	}
 	else
 	{
-		return 1;
+		return 0;
 	}
 }
 
@@ -118,37 +120,67 @@ void freeList(List *L, int deleteData)
 // Consultation
 void viewList(const List *L)
 {
-	// TODO
+	printf("[\n");
+	for (LNode *node = L->head; node; node = node->succ)
+	{
+		L->viewData(node);
+	}
+	printf("]\n\n");
 }
 
 // Modification
+
 void listInsertFirst(List *L, void *data)
 {
-	// TODO
+	if (listIsEmpty(L) == 1)
+	{
+		L->head = data;
+	}
+	else
+	{
+		L->head->succ = data;
+	}
+	L->numelm++;
+	L->head = data;
 }
+
 void listInsertLast(List *L, void *data)
 {
-	// TODO
+	if (listIsEmpty(L) == 1)
+	{
+		L->head = data;
+	}
+	else
+	{
+		L->tail->succ = data;
+	}
+	L->numelm++;
+	L->tail = data;
 }
+
 void listInsertAfter(List *L, void *data, LNode *ptrelm)
 {
 	// TODO
 }
+
 void *listRemoveFirst(List *L)
 {
 	assert(Head(L));
 	// TODO
 }
+
 void *listRemoveLast(List *L)
 {
 	assert(Head(L));
 	// TODO
 }
+
 void *listRemoveNode(List *L, LNode *node)
 {
 	assert(Head(L) && Tail(L));
 	// TODO
 }
+
 List *listConcatenate(List *L1, List *L2)
 {
 	// TODO
