@@ -12,7 +12,8 @@
 LNode *newLNode(void *data)
 {
 	struct ListNode *L = (struct ListNode *)calloc(1, sizeof(struct ListNode));
-	assert(data);
+	if (listIsEmpty(L)==1)
+	ShowMessage("Liste vide",1)
 	L->data = data;
 	return L;
 }
