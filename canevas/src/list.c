@@ -9,29 +9,34 @@
  ********************************************************************/
 
 // Construction
+
 LNode *newLNode(void *data)
 {
-	struct ListNode *L = (struct ListNode *)calloc(1, sizeof(struct ListNode));
+	LNode *L = (LNode *)calloc(1, sizeof(LNode));
 	assert(data);
 	L->data = data;
 	return L;
 }
 
 // Consultation
+
 void *getLNodeData(const LNode *node)
 {
 	return node->data;
 }
+
 LNode *Successor(const LNode *node)
 {
 	return node->succ;
 }
+
 LNode *Predecessor(const LNode *node)
 {
 	return node->pred;
 }
 
 // Modification
+
 void setLNodeData(LNode *node, void *newData)
 {
 	node->data = newData;
@@ -50,10 +55,13 @@ void setPredecessor(LNode *node, LNode *newPred)
  ********************************************************************/
 
 // Construction
+
 List *newList(void (*viewData)(const void *), void (*freeData)(void *))
 {
-	struct List *L = (struct List *)calloc(1, sizeof(struct List));
+	List *L = (List *)calloc(1, sizeof(List));
 	assert(L);
+	L->viewData = viewData;
+	L->freeData = freeData;
 	return L;
 }
 
@@ -71,59 +79,82 @@ int listIsEmpty(List *L)
 }
 
 // Consultation
+
 int getListSize(const List *L)
 {
 	return L->numelm;
 }
+
 LNode *Head(const List *L)
 {
 	return L->head;
 }
+
 LNode *Tail(const List *L)
 {
 	return L->tail;
 }
 
 // Modification
+
 void increaseListSize(List *L)
 {
 	L->numelm = L->numelm + 1;
 }
+
 void decreaseListSize(List *L)
 {
 	L->numelm = L->numelm - 1;
 }
+
 void setListSize(List *L, int newSize)
 {
 	L->numelm = newSize;
 }
+
 void resetListSize(List *L)
 {
 	L->numelm = 0;
 }
+
 void setHead(List *L, LNode *newHead)
 {
 	L->head = newHead;
 }
+
 void setTail(List *L, LNode *newTail)
 {
 	L->tail = newTail;
 }
 
 // Liberation
+
 void freeList(List *L, int deleteData)
 {
 	assert(deleteData == 0 || deleteData == 1);
-	// TODO
+
+	assert(L != NULL);
+	if (deleteData == 1)
+	{
+		LNode *node = L->head;
+		while (node != NULL)
+		{
+			LNode *next = node->succ;
+			L->freeData(node->data);
+			node = next;
+		}
+	}
 }
 
 // Consultation
+
 void viewList(const List *L)
 {
-	printf("[\n");
-	for (LNode *node = L->head; node; node = node->succ)
+	printf("[ ");
+	for (LNode *E = L->head; E; E = E->succ)
 	{
-		L->viewData(node);
+		(*L->viewData)(E->data); // Affiche la donnée, suivi d'un espace pour aérer
+		printf(" ");
 	}
 	printf("]\n\n");
 }
@@ -132,56 +163,113 @@ void viewList(const List *L)
 
 void listInsertFirst(List *L, void *data)
 {
-	if (listIsEmpty(L) == 1)
+	LNode *node = newLNode(data);
+	if (listIsEmpty(L))
 	{
-		L->head = data;
+		setHead(L, node);
+		setTail(L, node);
 	}
 	else
 	{
-		L->head->succ = data;
+		setPredecessor(Head(L), node);
+		setSuccessor(node, Head(L));
+		setHead(L, node);
 	}
-	L->numelm++;
-	L->head = data;
+	increaseListSize(L);
 }
 
 void listInsertLast(List *L, void *data)
 {
-	if (listIsEmpty(L) == 1)
+	LNode *node = newLNode(data);
+	if (listIsEmpty(L))
 	{
-		L->head = data;
+		setHead(L, node);
+		setTail(L, node);
 	}
 	else
 	{
-		L->tail->succ = data;
+		setSuccessor(Tail(L), node);
+		setPredecessor(node, Tail(L));
+		setTail(L, node);
 	}
-	L->numelm++;
-	L->tail = data;
+	increaseListSize(L);
 }
 
 void listInsertAfter(List *L, void *data, LNode *ptrelm)
 {
-	// TODO
+	if (ptrelm == NULL)
+		setLNodeData(ptrelm, data);
+	else
+	{
+		struct ListNode *node = newLNode(data);
+		assert(node);
+		setSuccessor(node, Successor(ptrelm));
+		setSuccessor(ptrelm, node);
+		increaseListSize(L);
+		if (ptrelm == Tail(L))
+			setTail(L, node);
+	}
 }
 
 void *listRemoveFirst(List *L)
 {
 	assert(Head(L));
-	// TODO
+	if (listIsEmpty(L))
+		printf("La liste ne doit pas être vide\n");
+	else
+	{
+		listRemoveNode(L, Head(L));
+	}
 }
 
 void *listRemoveLast(List *L)
 {
 	assert(Head(L));
-	// TODO
+	if (listIsEmpty(L))
+		printf("La liste ne doit pas être vide\n");
+	else
+	{
+		listRemoveNode(L, Tail(L));
+	}
 }
 
 void *listRemoveNode(List *L, LNode *node)
 {
 	assert(Head(L) && Tail(L));
-	// TODO
+	if (listIsEmpty(L))
+		ShowMessage("La liste est vide", 1);
+	else
+		free(node);
 }
 
 List *listConcatenate(List *L1, List *L2)
 {
-	// TODO
+	if (listIsEmpty(L1) == 1)
+	{
+		freeList(L1, 0);
+		return L2;
+	}
+	else
+	{
+		setSuccessor(Tail(L1), Head(L2));
+		setPredecessor(Head(L2), Tail(L1));
+		freeList(L2, 0);
+		return L1;
+	}
+}
+
+// Fonctions externes
+
+void viewHead(List *L)
+{
+	printf("Tête : ");
+	viewInt(getLNodeData(Head(L)));
+	printf("\n");
+}
+
+void viewTail(List *L)
+{
+	printf("Queue : ");
+	viewInt(getLNodeData(Tail(L)));
+	printf("\n");
 }
