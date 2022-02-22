@@ -285,4 +285,10 @@ void viewHead(List *L);
  */
 void viewTail(List *L);
 
+/**
+ * @brief Affiche la tete, la queue et la liste entière
+ * @param[in] L
+ */
+void viewAll(List *L);
+
 #endif // _LIST_H_

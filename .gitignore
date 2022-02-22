@@ -1,3 +1,4 @@
 .vscode/
 cmake-build-debug/*
 CMakeLists.txt
+convexhull.exe

@@ -8,6 +8,9 @@
  * LNode
  ********************************************************************/
 
+void viewSuccessor(const LNode *node);
+void viewPredecessor(const LNode *node);
+
 // Construction
 
 LNode *newLNode(void *data)
@@ -171,8 +174,8 @@ void listInsertFirst(List *L, void *data)
 	}
 	else
 	{
-		setPredecessor(Head(L), node);
 		setSuccessor(node, Head(L));
+		setPredecessor(Head(L), node);
 		setHead(L, node);
 	}
 	increaseListSize(L);
@@ -198,48 +201,69 @@ void listInsertLast(List *L, void *data)
 void listInsertAfter(List *L, void *data, LNode *ptrelm)
 {
 	if (ptrelm == NULL)
-		setLNodeData(ptrelm, data);
+		ShowMessage("Le pointeur doit obligatoirement designer un noued de la liste", 1);
+	if (listIsEmpty(L))
+		listInsertFirst(L, data);
+	else if (ptrelm == Tail(L))
+		listInsertLast(L, data);
 	else
 	{
-		struct ListNode *node = newLNode(data);
-		assert(node);
+		LNode *node = newLNode(data);
+		setPredecessor(node, ptrelm);
 		setSuccessor(node, Successor(ptrelm));
 		setSuccessor(ptrelm, node);
-		increaseListSize(L);
-		if (ptrelm == Tail(L))
-			setTail(L, node);
+		setPredecessor(Successor(ptrelm), node);
 	}
+	increaseListSize(L);
 }
 
 void *listRemoveFirst(List *L)
 {
 	assert(Head(L));
 	if (listIsEmpty(L))
-		printf("La liste ne doit pas être vide\n");
-	else
-	{
-		listRemoveNode(L, Head(L));
-	}
+		ShowMessage("La liste ne doit pas être vide", 1);
+
+	void *data = getLNodeData(Head(L));
+	LNode *succ = Successor(Head(L));
+	free(Head(L));
+	setHead(L, succ);
+	return data;
 }
 
 void *listRemoveLast(List *L)
 {
-	assert(Head(L));
+	assert(Tail(L));
 	if (listIsEmpty(L))
-		printf("La liste ne doit pas être vide\n");
-	else
-	{
-		listRemoveNode(L, Tail(L));
-	}
+		ShowMessage("La liste ne doit pas être vide", 1);
+
+	void *data = getLNodeData(Tail(L));
+
+	LNode *pred = Predecessor(Tail(L));
+	free(Tail(L));
+	setTail(L, pred);
+	setSuccessor(Tail(L), NULL); // On met le successeur de la queue de la liste a NULL
+								 // pour éviter un seg fault lors de l'affochage de la liste
+								 // listRemoveNode(L, Tail(L));
+	return data;
 }
 
 void *listRemoveNode(List *L, LNode *node)
 {
 	assert(Head(L) && Tail(L));
 	if (listIsEmpty(L))
-		ShowMessage("La liste est vide", 1);
+		ShowMessage("La liste ne doit pas être vide", 1);
+
+	if (node == Head(L))
+		listRemoveFirst(L);
+	else if (node == Tail(L))
+		listRemoveLast(L);
 	else
+	{
+		setSuccessor(Predecessor(node), Successor(node));
+		setPredecessor(Successor(node), Predecessor(node));
 		free(node);
+	}
+	return node->data;
 }
 
 List *listConcatenate(List *L1, List *L2)
@@ -272,4 +296,11 @@ void viewTail(List *L)
 	printf("Queue : ");
 	viewInt(getLNodeData(Tail(L)));
 	printf("\n");
+}
+
+void viewAll(List *L)
+{
+	viewHead(L);
+	viewTail(L);
+	viewList(L);
 }
