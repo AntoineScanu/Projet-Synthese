@@ -132,20 +132,33 @@ void setTail(List *L, LNode *newTail)
 
 // Liberation
 
+void freeNode(LNode *ptrE)
+{
+	assert(ptrE);
+	free(ptrE);
+	ptrE = NULL;
+}
+
 void freeList(List *L, int deleteData)
 {
 	assert(deleteData == 0 || deleteData == 1);
-
 	assert(L != NULL);
+
 	if (deleteData == 1)
 	{
-		LNode *node = L->head;
-		while (node != NULL)
+		for (LNode *E = Head(L); E; E = Successor(E))
 		{
-			LNode *next = node->succ;
-			L->freeData(node->data);
-			node = next;
+			LNode *T = E;
+			(*L->freeData)(T->data);
+			freeNode(T);
 		}
+		free(L);
+		L = NULL;
+	}
+	else
+	{
+		free(L);
+		L = NULL;
 	}
 }
 
@@ -154,7 +167,7 @@ void freeList(List *L, int deleteData)
 void viewList(const List *L)
 {
 	printf("[ ");
-	for (LNode *E = L->head; E; E = E->succ)
+	for (LNode *E = Head(L); E; E = Successor(E))
 	{
 		(*L->viewData)(E->data); // Affiche la donnée, suivi d'un espace pour aérer
 		printf(" ");
@@ -227,6 +240,7 @@ void *listRemoveFirst(List *L)
 	LNode *succ = Successor(Head(L));
 	free(Head(L));
 	setHead(L, succ);
+	decreaseListSize(L);
 	return data;
 }
 
@@ -244,6 +258,7 @@ void *listRemoveLast(List *L)
 	setSuccessor(Tail(L), NULL); // On met le successeur de la queue de la liste a NULL
 								 // pour éviter un seg fault lors de l'affochage de la liste
 								 // listRemoveNode(L, Tail(L));
+	decreaseListSize(L);
 	return data;
 }
 
@@ -263,6 +278,8 @@ void *listRemoveNode(List *L, LNode *node)
 		setPredecessor(Successor(node), Predecessor(node));
 		free(node);
 	}
+
+	decreaseListSize(L);
 	return node->data;
 }
 
@@ -277,6 +294,8 @@ List *listConcatenate(List *L1, List *L2)
 	{
 		setSuccessor(Tail(L1), Head(L2));
 		setPredecessor(Head(L2), Tail(L1));
+		setTail(L1, Tail(L2));
+		setListSize(L1, getListSize(L1) + getListSize(L2));
 		freeList(L2, 0);
 		return L1;
 	}
@@ -287,19 +306,30 @@ List *listConcatenate(List *L1, List *L2)
 void viewHead(List *L)
 {
 	printf("Tête : ");
-	viewInt(getLNodeData(Head(L)));
-	printf("\n");
+	if (Head(L) == NULL)
+		printf("NULL\n");
+	else
+	{
+		viewInt(getLNodeData(Head(L)));
+		printf("\n");
+	}
 }
 
 void viewTail(List *L)
 {
 	printf("Queue : ");
-	viewInt(getLNodeData(Tail(L)));
-	printf("\n");
+	if (Tail(L) == NULL)
+		printf("NULL\n");
+	else
+	{
+		viewInt(getLNodeData(Tail(L)));
+		printf("\n");
+	}
 }
 
 void viewAll(List *L)
 {
+	printf("Taille : %d\n", getListSize(L));
 	viewHead(L);
 	viewTail(L);
 	viewList(L);
