@@ -21,11 +21,11 @@ void* getTNodeData(const TNode* node) {
 }
 
 TNode* Left(const TNode* node) {
-	// TODO
+	return node->right;
 }
 
 TNode* Right(const TNode* node) {
-	// TODO
+	return node->left;
 }
 
 void setTNodeData(TNode* node, void* newData) {
