@@ -10,7 +10,10 @@
  ********************************************************************/
 
 TNode * newTNode(void* data) {
-	// TODO
+    TNode *T = (TNode *)calloc(1, sizeof(TNode));
+    assert(data);
+    T->data = data;
+    return T;
 }
 
 void* getTNodeData(const TNode* node) {
