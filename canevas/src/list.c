@@ -102,12 +102,12 @@ LNode *Tail(const List *L)
 
 void increaseListSize(List *L)
 {
-	L->numelm = L->numelm + 1;
+	L->numelm++;
 }
 
 void decreaseListSize(List *L)
 {
-	L->numelm = L->numelm - 1;
+	L->numelm--;
 }
 
 void setListSize(List *L, int newSize)
@@ -149,7 +149,7 @@ void freeList(List *L, int deleteData)
 		for (LNode *E = Head(L); E; E = Successor(E))
 		{
 			LNode *T = E;
-			(*L->freeData)(T->data);
+			L->freeData(T->data);
 			freeNode(T);
 		}
 		free(L);
@@ -240,6 +240,7 @@ void *listRemoveFirst(List *L)
 	LNode *succ = Successor(Head(L));
 	free(Head(L));
 	setHead(L, succ);
+	setPredecessor(Head(L), NULL);
 	decreaseListSize(L);
 	return data;
 }
@@ -251,7 +252,6 @@ void *listRemoveLast(List *L)
 		ShowMessage("La liste ne doit pas être vide", 1);
 
 	void *data = getLNodeData(Tail(L));
-
 	LNode *pred = Predecessor(Tail(L));
 	free(Tail(L));
 	setTail(L, pred);

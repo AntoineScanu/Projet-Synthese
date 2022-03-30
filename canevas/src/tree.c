@@ -107,21 +107,29 @@ void setRoot(CBTree *T, TNode *newRoot)
  * @param[in] node
  * @param[in] freeData
  */
-static void freeTNode(TNode *node, void (*freeData)(void *)) {
-    if (Right(node) != NULL && Left(node) != NULL) {
-        freeTNode(Right(node), freeData);
-        freeTNode(Left(node), freeData);
-        /*free(node);*/
-    } else if (Right(node) != NULL) {
-        freeTNode(Right(node), freeData);
-        /*free(node);*/
-    } else if (Left(node) != NULL) {
-        freeTNode(Left(node), freeData);
-        /*free(node);*/
-    } else {
-        free(node);
-    }
-    (*freeData)(node);
+static void freeTNode(TNode *node, void (*freeData)(void *))
+{
+	if (Right(node) != NULL && Left(node) != NULL)
+	{
+		freeTNode(Right(node), freeData);
+		freeTNode(Left(node), freeData);
+		/*free(node);*/
+	}
+	else if (Right(node) != NULL)
+	{
+		freeTNode(Right(node), freeData);
+		/*free(node);*/
+	}
+	else if (Left(node) != NULL)
+	{
+		freeTNode(Left(node), freeData);
+		/*free(node);*/
+	}
+	else
+	{
+		free(node);
+	}
+	(*freeData)(node);
 }
 
 /**
@@ -215,7 +223,23 @@ void viewCBTree(const CBTree *T, int order)
  */
 static TNode *insertAfterLastTNode(TNode *node, int position, void *data)
 {
-	// TODO
+	int n = position + 1;
+	int h = floor((log2(n)) + 1);
+	int k = n - (pow(2, (h - 1)) - 1);
+	TNode *newNode = newTNode(data);
+
+	if (k == 0)
+		return newNode;
+	else if (k <= pow(2, (h - 1)) / 2)
+	{
+		int newPos = pow(2, h) + 1;
+		setLeft(node, insertAfterLastTNode(Left(node), newPos, data));
+	}
+	else
+	{
+		int newPos = pow(2, h) + 1;
+		setRight(node, insertAfterLastTNode(Right(node), newPos, data));
+	}
 }
 
 /**
@@ -224,7 +248,7 @@ static TNode *insertAfterLastTNode(TNode *node, int position, void *data)
  */
 void CBTreeInsert(CBTree *T, void *data)
 {
-	// TODO
+	insertAfterLastTNode(Root(T), getCBTreeSize(T), data);
 }
 
 /**
@@ -251,7 +275,27 @@ void CBTreeInsert(CBTree *T, void *data)
  */
 static TNode *removeLastTNode(TNode *node, int position, void **data)
 {
-	// TODO
+	int n = position + 1;
+	int h = floor((log2(n)) + 1);
+	int k = n - (pow(2, (h - 1)) - 1);
+	TNode *newNode = newTNode(data);
+
+	if (k == 0)
+	{
+		freeTNode(node, NULL);
+		node = NULL;
+		return newNode;
+	}
+	else if (k <= pow(2, (h - 1)) / 2)
+	{
+		int newPos = pow(2, h) + 1;
+		removeLastTNode(Left(node), newPos, data);
+	}
+	else
+	{
+		int newPos = pow(2, h) + 1;
+		removeLastTNode(Right(node), newPos, data);
+	}
 }
 
 /**
@@ -261,7 +305,7 @@ static TNode *removeLastTNode(TNode *node, int position, void **data)
 void *CBTreeRemove(CBTree *T)
 {
 	assert(Root(T));
-	// TODO
+	removeLastTNode(Root(T), getCBTreeSize(T) - 1, getTNodeData(CBTreeGetLast(T)));
 }
 
 /**
@@ -285,7 +329,22 @@ void *CBTreeRemove(CBTree *T)
  */
 static TNode *getLastTNode(TNode *node, int position)
 {
-	// TODO
+	int n = position + 1;
+	int h = floor((log2(n)) + 1);
+	int k = n - (pow(2, (h - 1)) - 1);
+
+	if (k == 0)
+		return node;
+	else if (k <= pow(2, (h - 1)) / 2)
+	{
+		int newPos = pow(2, h) + 1;
+		getLastTNode(Left(node), newPos);
+	}
+	else
+	{
+		int newPos = pow(2, h) + 1;
+		getLastTNode(Right(node), newPos);
+	}
 }
 
 /**
@@ -294,7 +353,7 @@ static TNode *getLastTNode(TNode *node, int position)
  */
 TNode *CBTreeGetLast(CBTree *T)
 {
-	// TODO
+	getLastTNode(Root(T), getCBTreeSize(T) - 1);
 }
 
 void CBTreeSwapData(TNode *node1, TNode *node2)
