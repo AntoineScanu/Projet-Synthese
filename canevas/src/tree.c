@@ -24,12 +24,12 @@ void *getTNodeData(const TNode *node)
 
 TNode *Left(const TNode *node)
 {
-	return node->right;
+	return node->left;
 }
 
 TNode *Right(const TNode *node)
 {
-	return node->left;
+	return node->right;
 }
 
 void setTNodeData(TNode *node, void *newData)
@@ -44,7 +44,7 @@ void setLeft(TNode *node, TNode *newLeft)
 
 void setRight(TNode *node, TNode *newRight)
 {
-	node->left = newRight;
+	node->right = newRight;
 }
 
 /********************************************************************
@@ -139,7 +139,9 @@ static void freeTNode(TNode *node, void (*freeData)(void *))
  */
 void freeCBTree(CBTree *T, int deleteData)
 {
-	// TODO
+    freeCBTree(node->left);
+    freeCBTree(left(T));
+    free(node);
 }
 
 /**
@@ -384,7 +386,10 @@ TNode *CBTreeGetLast(CBTree *T)
 	return getLastTNode(Root(T), getCBTreeSize(T) - 1);
 }
 
+//à tester :
 void CBTreeSwapData(TNode *node1, TNode *node2)
 {
-	// TODO
+	int t=node1;
+    node1=node2;
+    node2=t;
 }
