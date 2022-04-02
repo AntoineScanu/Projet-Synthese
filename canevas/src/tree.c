@@ -153,7 +153,14 @@ void freeCBTree(CBTree *T, int deleteData)
  */
 static void preorder(TNode *node, void (*viewData)(const void *))
 {
-	// TODO
+	if (node == NULL)
+		ShowMessage("Erreur preorder : le node est null", 1);
+	else
+	{
+		viewData(node);
+		preorder(Left(node), viewData);
+		preorder(Right(node), viewData);
+	}
 }
 
 /**
@@ -167,7 +174,14 @@ static void preorder(TNode *node, void (*viewData)(const void *))
  */
 static void inorder(TNode *node, void (*viewData)(const void *))
 {
-	// TODO
+	if (node == NULL)
+		ShowMessage("Erreur preorder : le node est null", 1);
+	else
+	{
+		inorder(Left(node), viewData);
+		viewData(node);
+		inorder(Right(node), viewData);
+	}
 }
 
 /**
@@ -181,7 +195,14 @@ static void inorder(TNode *node, void (*viewData)(const void *))
  */
 static void postorder(TNode *node, void (*viewData)(const void *))
 {
-	// TODO
+	if (node == NULL)
+		ShowMessage("Erreur preorder : le node est null", 1);
+	else
+	{
+		postorder(Left(node), viewData);
+		postorder(Right(node), viewData);
+		viewData(node);
+	}
 }
 
 /**
@@ -234,11 +255,13 @@ static TNode *insertAfterLastTNode(TNode *node, int position, void *data)
 	{
 		int newPos = pow(2, h) + 1;
 		setLeft(node, insertAfterLastTNode(Left(node), newPos, data));
+		return 0;
 	}
 	else
 	{
 		int newPos = pow(2, h) + 1;
 		setRight(node, insertAfterLastTNode(Right(node), newPos, data));
+		return 0;
 	}
 }
 
@@ -290,11 +313,13 @@ static TNode *removeLastTNode(TNode *node, int position, void **data)
 	{
 		int newPos = pow(2, h) + 1;
 		removeLastTNode(Left(node), newPos, data);
+		return 0;
 	}
 	else
 	{
 		int newPos = pow(2, h) + 1;
 		removeLastTNode(Right(node), newPos, data);
+		return 0;
 	}
 }
 
@@ -306,6 +331,7 @@ void *CBTreeRemove(CBTree *T)
 {
 	assert(Root(T));
 	removeLastTNode(Root(T), getCBTreeSize(T) - 1, getTNodeData(CBTreeGetLast(T)));
+	return 0;
 }
 
 /**
@@ -339,11 +365,13 @@ static TNode *getLastTNode(TNode *node, int position)
 	{
 		int newPos = pow(2, h) + 1;
 		getLastTNode(Left(node), newPos);
+		return 0;
 	}
 	else
 	{
 		int newPos = pow(2, h) + 1;
 		getLastTNode(Right(node), newPos);
+		return 0;
 	}
 }
 
@@ -353,7 +381,7 @@ static TNode *getLastTNode(TNode *node, int position)
  */
 TNode *CBTreeGetLast(CBTree *T)
 {
-	getLastTNode(Root(T), getCBTreeSize(T) - 1);
+	return getLastTNode(Root(T), getCBTreeSize(T) - 1);
 }
 
 void CBTreeSwapData(TNode *node1, TNode *node2)
