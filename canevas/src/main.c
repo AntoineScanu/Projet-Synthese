@@ -8,8 +8,10 @@
 #include "geometry.h"
 #include "algo.h"
 
+
 int main()
 {
+
 	List *L1 = newList(viewInt, freeInt);
 	List *L2 = newList(viewInt, freeInt);
 
