@@ -177,7 +177,8 @@ CBTree *getCBTree(const CBTHeap *H)
 	}
 	else
 	{
-		setRoot(T, Root(H->T))
+		setRoot(T, Root(H->T));
+		// TODO
 	}
 	return T;
 }
