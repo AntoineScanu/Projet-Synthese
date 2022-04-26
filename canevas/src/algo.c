@@ -22,6 +22,7 @@
  */
 static Point **readInstance(const char *filename, int *N) {
     // TODO
+
 }
 
 /**
@@ -32,7 +33,16 @@ static Point **readInstance(const char *filename, int *N) {
  * @param[in] L la liste des points à écrire dans le fichier \p filename.
  */
 static void writeSolution(const char *filename, List *L) {
-    // TODO
+    // Todo
+    // A verfier
+    FILE *fp;
+    fp=fopen(filename,"w");
+    LNode *n;
+    n=Head(L);
+        for (int i = 0; i < getListSize(L); ++i) {
+           fprintf(fp, "%d", getLNodeData(n));
+           n = Successor(n);
+      }
 }
 
 /**
