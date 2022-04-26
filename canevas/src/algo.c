@@ -34,7 +34,14 @@ static Point **readInstance(const char *filename, int *N)
  */
 static void writeSolution(const char *filename, List *L)
 {
-    // TODO
+    FILE *fp;
+    fp=fopen(filename,"w");
+    LNode *n;
+    n=Head(L);
+    for (int i = 0; i < getListSize(L); ++i) {
+        fprintf(fp, "%d", getLNodeData(n));
+        n = Successor(n);
+    }
 }
 
 /**
