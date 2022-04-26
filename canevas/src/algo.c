@@ -20,9 +20,9 @@
  * (paramètre de sortie).
  * @return Point** le tableau avec les points du fichier \p filename.
  */
-static Point **readInstance(const char *filename, int *N) {
+static Point **readInstance(const char *filename, int *N)
+{
     // TODO
-
 }
 
 /**
@@ -32,33 +32,27 @@ static Point **readInstance(const char *filename, int *N) {
  * @param[in] filename le nom du fichier d'écriture.
  * @param[in] L la liste des points à écrire dans le fichier \p filename.
  */
-static void writeSolution(const char *filename, List *L) {
-    // Todo
-    // A verfier
-    FILE *fp;
-    fp=fopen(filename,"w");
-    LNode *n;
-    n=Head(L);
-        for (int i = 0; i < getListSize(L); ++i) {
-           fprintf(fp, "%d", getLNodeData(n));
-           n = Successor(n);
-      }
+static void writeSolution(const char *filename, List *L)
+{
+    // TODO
 }
 
 /**
  * @brief Transforme la liste des arcs \p dedges décrivant les arêtes
  * du polygone de l'enveloppe convexe à une liste des poins ordonnés
  * dans le sens horaire.
- * 
+ *
  * @param[in] edges la liste des arcs de l'enveloppe convexe
  * @return List* la liste des points de l'enveloppe convexe dans le sens
  * horaire
  */
-static List *DedgesToClockwisePoints(List *dedges) {
+static List *DedgesToClockwisePoints(List *dedges)
+{
     // TODO
 }
 
-void SlowConvexHull(const char *infilename, const char *outfilename) {
+void SlowConvexHull(const char *infilename, const char *outfilename)
+{
     // TODO
 }
 
@@ -71,27 +65,51 @@ void SlowConvexHull(const char *infilename, const char *outfilename) {
  * renvoie 1, sinon renvoie 0. Dans le cas d'égalité, si l'ordonnée de \p a
  * est plus petite que l'ordonnée de \p b renvoie 1, sinon renvoie 0.
  */
-static int smallerPoint(const void *a, const void *b) {
-    // TODO
+static int smallerPoint(const void *a, const void *b)
+{
+    if (X(a) < X(b))
+        return 1;
+    else if (X(a) > X(b))
+        return 0;
+    else
+    {
+        if (Y(a) < Y(b))
+            return 1;
+        else if (Y(a) > Y(b))
+            return 0;
+    }
 }
 
 /**
  * @brief Compare le points \p a et \p b.
- * 
- * @param[in] a 
- * @param[in] b 
+ *
+ * @param[in] a
+ * @param[in] b
  * @return int si l'abscisse de \p a est plus grande que l'abscisse de \p b
  * renvoie 1, sinon renvoie 0. Dans le cas d'égalité, si l'ordonnée de \p a
  * est plus grande que l'ordonnée de \p b renvoie 1, sinon renvoie 0.
  */
-static int biggerPoint(const void *a, const void *b) {
+static int biggerPoint(const void *a, const void *b)
+{
+    if (X(a) > X(b))
+        return 1;
+    else if (X(a) < X(b))
+        return 0;
+    else
+    {
+        if (Y(a) > Y(b))
+            return 1;
+        else if (Y(a) < Y(b))
+            return 0;
+    }
+}
+
+void ConvexHull(const char *infilename, const char *outfilename, int sortby)
+{
     // TODO
 }
 
-void ConvexHull(const char *infilename, const char *outfilename, int sortby) {
-    // TODO
-}
-
-void RapidConvexHull(const char *infilename, const char *outfilename) {
+void RapidConvexHull(const char *infilename, const char *outfilename)
+{
     // TODO
 }
