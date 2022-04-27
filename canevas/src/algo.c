@@ -20,9 +20,30 @@
  * (paramètre de sortie).
  * @return Point** le tableau avec les points du fichier \p filename.
  */
-static Point **readInstance(const char *filename, int *N)
+ Point **readInstance(const char *filename, int *N)
 {
-    // TODO
+    Point **tab=(Point **)calloc(1,sizeof(Point));
+    FILE *fp;
+    fp=fopen(filename,"r");
+    char buffer[BUFSIZ];
+
+    fscanf(fp,"%d",&N);
+    for (int i = 1; i < *N; i++)
+        {
+            if(fp!=NULL){
+                int x;
+                int y;
+                fscanf(fp,"%d %d",&x,&y);
+                tab[i]= newPoint(x,y);
+            }
+            else
+            {
+                printf("Fichiers vide ?\n");
+                exit(1);
+            }
+        }
+    fclose(fp);
+    return tab;
 }
 
 /**
