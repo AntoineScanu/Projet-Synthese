@@ -8,7 +8,21 @@ void ArrayHeapSort(void **A, int N,
                    void (*viewHeapData)(const void *),
                    void (*freeHeapData)(void *))
 {
-    // TODO
+    void **T = (void **)(calloc(N, sizeof(void *)));
+
+    for (int i = 0; i < N - 1; i++)
+    {
+        if (preceed(A[i], A[i + 1]))
+        {
+            void *temp = A[i];
+            A[i] = A[i + 1];
+            A[i + 1] = temp;
+        }
+    }
+    for (int i = N - 1; i >= 0; i++)
+    {
+        T[i] = ArrayHeapExtractMin(A);
+    }
 }
 
 void CBTHeapSort(void **A, int N,
@@ -16,13 +30,15 @@ void CBTHeapSort(void **A, int N,
                  void (*viewHeapData)(const void *),
                  void (*freeHeapData)(void *))
 {
+    void **T = (void **)(calloc(N, sizeof(void *)));
+
     for (int i = 0; i < N - 1; i++)
     {
-        A[i] =
+        CBTHeapInsert(T, A[i]);
     }
     for (int i = 0; i < N - 1; i++)
     {
-        A[i] =
+        T[i] = CBTHeapExtractMin(A);
     }
 }
 
@@ -40,7 +56,7 @@ void SelectionSort(void **A, int N, int (*preceed)(const void *, const void *))
         }
         if (min != i)
         {
-            int ech = A[i];
+            void *ech = A[i];
             A[i] = A[min];
             A[min] = ech;
         }
