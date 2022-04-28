@@ -222,7 +222,8 @@ static void updateCBTHeapUpwards(TNode *node, int pos, int (*preceed)(const void
 
 void CBTHeapInsert(CBTHeap *H, void *data)
 {
-    // TODO
+    CBTreeInsert(getCBTree(H), data);
+    updateCBTHeapUpwards(Root(getCBTree(H)), getCBTreeSize(getCBTree(H)) - 1, H->preceed);
 }
 
 /**
