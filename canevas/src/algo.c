@@ -38,7 +38,7 @@
             }
             else
             {
-                printf("Fichiers vide ?\n");
+                printf("Fichier invalide\n");
                 exit(1);
             }
         }
@@ -81,7 +81,12 @@ static List *DedgesToClockwisePoints(List *dedges)
 
 void SlowConvexHull(const char *infilename, const char *outfilename)
 {
-    // TODO
+//    int E=NULL;
+//    for (int i = 0; i < getListSize(L); ++i) {
+//        int ok=1;
+//
+//    }
+//TODO
 }
 
 /**
