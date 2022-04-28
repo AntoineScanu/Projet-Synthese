@@ -38,7 +38,7 @@
             }
             else
             {
-                printf("Fichiers vide ?\n");
+                printf("Fichier invalide\n");
                 exit(1);
             }
         }
