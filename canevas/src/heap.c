@@ -167,20 +167,7 @@ CBTHeap *newCBTHeap(int (*preceed)(const void *, const void *),
 
 CBTree *getCBTree(const CBTHeap *H)
 {
-    CBTree *T = newCBTree(viewCBTree, freeCBTree);
-    if (treeIsEmpty(H->T))
-        ShowMessage("Le tas H est vide", 0);
-    else if (getCBTreeSize(H->T) == 1)
-    {
-        setRoot(T, Root(H->T));
-        increaseCBTreeSize(T);
-    }
-    else
-    {
-        setRoot(T, Root(H->T));
-        // TODO
-    }
-    return T;
+    return H->T;
 }
 
 /**
