@@ -82,14 +82,15 @@ static List *DedgesToClockwisePoints(List *dedges)
 
     while (Successor(node))
     {
-        Point *A = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
-        Point *B = newPoint(X(getOrigin(Successor(node))), Y(getOrigin(Successor(node))));
-        if (smallerPoint(A, B))
+        Point *A = newPoint(X(getOrigin(getLNodeData(node))), Y(getOrigin(getLNodeData(node))));
+        Point *B = newPoint(X(getOrigin(getLNodeData(Successor(node)))), Y(getOrigin(getLNodeData(Successor(node)))));
+
+        if (A < B)
         {
             listInsertLast(L, A);
             listInsertLast(L, B);
         }
-        else if (biggerPoint(A, B))
+        else if (A > B)
         {
             listInsertLast(L, B);
             listInsertLast(L, A);
@@ -134,6 +135,7 @@ static int smallerPoint(const void *a, const void *b)
         else if (Y(a) > Y(b))
             return 0;
     }
+    return 0;
 }
 
 /**
@@ -158,6 +160,7 @@ static int biggerPoint(const void *a, const void *b)
         else if (Y(a) < Y(b))
             return 0;
     }
+    return 0;
 }
 
 void ConvexHull(const char *infilename, const char *outfilename, int sortby)
