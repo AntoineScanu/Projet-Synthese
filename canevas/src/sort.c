@@ -3,7 +3,7 @@
 #include "heap.h"
 #include "sort.h"
 
-void ArrayHeapSort(void **A, int N,int (*preceed)(const void *, const void *),void (*viewHeapData)(const void *),void (*freeHeapData)(void *))
+void ArrayHeapSort(void **A, int N, int (*preceed)(const void *, const void *), void (*viewHeapData)(const void *), void (*freeHeapData)(void *))
 {
     void **T = (void **)(calloc(N, sizeof(void *)));
 
@@ -18,7 +18,7 @@ void ArrayHeapSort(void **A, int N,int (*preceed)(const void *, const void *),vo
     }
     for (int i = N - 1; i >= 0; i++)
     {
-        T[i] = ArrayHeapExtractMin(A);
+        T[i] = ArrayHeapExtractMin(ArrayToArrayHeap(A, N, preceed, viewHeapData, freeHeapData));
     }
 }
 
@@ -27,15 +27,15 @@ void CBTHeapSort(void **A, int N,
                  void (*viewHeapData)(const void *),
                  void (*freeHeapData)(void *))
 {
-    void **T = (void **)(calloc(N, sizeof(void *)));
+    CBTHeap *cbtHeap = newCBTHeap(preceed, viewHeapData, freeHeapData);
 
     for (int i = 0; i < N - 1; i++)
     {
-        CBTHeapInsert(T, A[i]);
+        CBTHeapInsert(cbtHeap, A[i]);
     }
     for (int i = 0; i < N - 1; i++)
     {
-        T[i] = CBTHeapExtractMin(A);
+        A[i] = CBTHeapExtractMin(cbtHeap);
     }
 }
 

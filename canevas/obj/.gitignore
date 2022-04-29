@@ -3,3 +3,7 @@ list.o
 main.o
 util.o
 tree.o
+algo.o
+geometry.o
+heap.o
+sort.o

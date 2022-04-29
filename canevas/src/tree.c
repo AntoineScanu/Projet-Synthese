@@ -218,11 +218,11 @@ static void postorder(TNode *node, void (*viewData)(const void *))
 void viewCBTree(const CBTree *T, int order)
 {
     if (order == 0)
-        preorder(T, viewInt);
+        preorder(Root(T), viewInt);
     else if (order == 1)
-        postorder(T, viewInt);
+        postorder(Root(T), viewInt);
     else if (order == 2)
-        inorder(T, viewInt);
+        inorder(Root(T), viewInt);
     else
         ShowMessage("Erreur viewCBTree : Veuillez rentrez un chiffre valide parmi 0, 1 ou 2", 1);
 }

@@ -20,28 +20,28 @@
  * (paramètre de sortie).
  * @return Point** le tableau avec les points du fichier \p filename.
  */
- Point **readInstance(const char *filename, int *N)
+Point **readInstance(const char *filename, int *N)
 {
-    Point **tab=(Point **)calloc(1,sizeof(Point));
+    Point **tab = (Point **)calloc(1, sizeof(Point));
     FILE *fp;
-    fp=fopen(filename,"r");
-    char buffer[BUFSIZ];
+    fp = fopen(filename, "r");
 
-    fscanf(fp,"%d",&N);
+    fscanf(fp, "%d", N);
     for (int i = 1; i < *N; i++)
+    {
+        if (fp != NULL)
         {
-            if(fp!=NULL){
-                int x;
-                int y;
-                fscanf(fp,"%d %d",&x,&y);
-                tab[i]= newPoint(x,y);
-            }
-            else
-            {
-                printf("Fichier invalide\n");
-                exit(1);
-            }
+            int x;
+            int y;
+            fscanf(fp, "%d %d", &x, &y);
+            tab[i] = newPoint(x, y);
         }
+        else
+        {
+            printf("Fichier invalide\n");
+            exit(1);
+        }
+    }
     fclose(fp);
     return tab;
 }
@@ -56,11 +56,12 @@
 static void writeSolution(const char *filename, List *L)
 {
     FILE *fp;
-    fp=fopen(filename,"w");
+    fp = fopen(filename, "w");
     LNode *n;
-    n=Head(L);
-    for (int i = 0; i < getListSize(L); ++i) {
-        fprintf(fp, "%d", getLNodeData(n));
+    n = Head(L);
+    for (int i = 0; i < getListSize(L); ++i)
+    {
+        fprintf(fp, "%d", atoi(getLNodeData(n)));
         n = Successor(n);
     }
 }
@@ -76,17 +77,24 @@ static void writeSolution(const char *filename, List *L)
  */
 static List *DedgesToClockwisePoints(List *dedges)
 {
-    // TODO
+    // List *L = newList(viewPoint, freePoint);
+    // LNode *node = Head(dedges);
+
+    // while(Successor(node)) {
+    //     Point *A = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
+    //     Point *B = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
+    //     if ()
+    // }
 }
 
 void SlowConvexHull(const char *infilename, const char *outfilename)
 {
-//    int E=NULL;
-//    for (int i = 0; i < getListSize(L); ++i) {
-//        int ok=1;
-//
-//    }
-//TODO
+    //    int E=NULL;
+    //    for (int i = 0; i < getListSize(L); ++i) {
+    //        int ok=1;
+    //
+    //    }
+    // TODO
 }
 
 /**
