@@ -260,7 +260,7 @@ List *listConcatenate(List *L1, List *L2) {
 // Fonctions externes
 
 void viewHead(List *L) {
-    printf("Tête : ");
+    printf("Tete : ");
     if (Head(L) == NULL)
         printf("NULL\n");
     else {

@@ -111,6 +111,7 @@ void SlowConvexHull(const char *infilename, const char *outfilename)
     //
     //    }
     // TODO
+    printf("SlowConvexHull\n");
 }
 
 /**
@@ -165,10 +166,10 @@ static int biggerPoint(const void *a, const void *b)
 
 void ConvexHull(const char *infilename, const char *outfilename, int sortby)
 {
-    // TODO
+    printf("ConvexHull\n");
 }
 
 void RapidConvexHull(const char *infilename, const char *outfilename)
 {
-    // TODO
+    printf("RapideConvexHull\n");
 }
