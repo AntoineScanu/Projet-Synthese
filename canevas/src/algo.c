@@ -77,14 +77,29 @@ static void writeSolution(const char *filename, List *L)
  */
 static List *DedgesToClockwisePoints(List *dedges)
 {
-    // List *L = newList(viewPoint, freePoint);
-    // LNode *node = Head(dedges);
+    List *L = newList(viewPoint, freePoint);
+    LNode *node = Head(dedges);
 
-    // while(Successor(node)) {
-    //     Point *A = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
-    //     Point *B = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
-    //     if ()
-    // }
+    while (Successor(node))
+    {
+        Point *A = newPoint(X(getOrigin(node)), Y(getOrigin(node)));
+        Point *B = newPoint(X(getOrigin(Successor(node))), Y(getOrigin(Successor(node))));
+        if (smallerPoint(A, B))
+        {
+            listInsertLast(L, A);
+            listInsertLast(L, B);
+        }
+        else if (biggerPoint(A, B))
+        {
+            listInsertLast(L, B);
+            listInsertLast(L, A);
+        }
+        else
+        {
+            listInsertLast(L, A);
+        }
+    }
+    return L;
 }
 
 void SlowConvexHull(const char *infilename, const char *outfilename)
