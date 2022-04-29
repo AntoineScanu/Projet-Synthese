@@ -273,34 +273,9 @@ static void updateCBTHeapDownwards(TNode *node, int (*preceed)(const void *, con
 void *CBTHeapExtractMin(CBTHeap *H)
 {
     assert(Root(getCBTree(H)));
-    void *elm = getTNodeData(Root(getCBTree(H)));
+    updateCBTHeapDownwards(Root(getCBTree(H)), H->preceed);
 
-    if (getCBTreeSize(getCBTree(H)) == 1)
-    {
-        CBTreeRemove(getCBTree(H));
-        decreaseCBTreeSize(getCBTree(H));
-    }
-    else
-    {
-        int i;
-        for (i = 1; i < getCBTreeSize(getCBTree(H)); i++)
-        {
-            if (H->preceed(getTNodeData(Root(getCBTree(H))), getTNodeData(Left(Root(getCBTree(H))))))
-            {
-                setRoot(getCBTree(H), Left(Root(getCBTree(H))));
-                decreaseCBTreeSize(getCBTree(H));
-                CBTHeapExtractMin(H);
-            }
-
-            if (H->preceed(getTNodeData(Root(getCBTree(H))), getTNodeData(Right(Root(getCBTree(H))))))
-            {
-                setRoot(getCBTree(H), Right(Root(getCBTree(H))));
-                decreaseCBTreeSize(getCBTree(H));
-                CBTHeapExtractMin(H);
-            }
-        }
-    }
-    return elm;
+    return CBTreeRemove(getCBTree(H));
 }
 
 void viewCBTHeap(const CBTHeap *H)

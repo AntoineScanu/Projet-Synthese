@@ -337,6 +337,8 @@ void *CBTreeRemove(CBTree *T)
 {
     assert(Root(T));
     removeLastTNode(Root(T), getCBTreeSize(T) - 1, getTNodeData(CBTreeGetLast(T)));
+    decreaseCBTreeSize(T);
+
     return 0;
 }
 
